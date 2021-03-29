@@ -15,7 +15,7 @@
 /* Include any custom CSS styling here! */
 h4 {
     text-align: center;
-    
+    padding-bottom: 30px;
 }
 
 svg {
@@ -58,4 +58,12 @@ svg {
     stroke: rgb(255, 0, 0);
     stroke-dasharray: 1,1;
     shape-rendering: crispEdges;
+}
+
+#writtenquestions{
+    position: absolute;
+    font-size: 14px;
+    padding:20px;
+    left: 80px;
+    right: 80px;
 }

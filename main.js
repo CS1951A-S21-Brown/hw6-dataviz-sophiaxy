@@ -11,59 +11,52 @@ let graph_3_width = MAX_WIDTH / 2, graph_3_height = 700;
 //load file
 let filename = "data/netflix.csv";
 
-// TODO: Set up SVG object with width, height and margin
+// Set up SVG object with width, height and margin
 let svg_1 = d3.select("#graph1")
     .append("svg")
     .attr("width", graph_1_width)     
     .attr("height", graph_1_height)    
     .append("g")
-    .attr("transform",`translate(${margin.left}, ${margin.top})`);    // HINT: transform
+    .attr("transform",`translate(${margin.left}, ${margin.top})`);    
 
 
-    // TODO: Create a linear scale for the x axis (number of occurrences)
+// create a linear scale for the x axis (number of occurrences)
 let x1 = d3.scaleLinear()
 .range([0, (graph_1_width-100-200)]);
 
-// TODO: Create a scale band for the y axis (artist)
-let y1 = d3.scaleBand().range([`${margin.top -30}`,(graph_1_height-`${margin.top}`-`${margin.bottom}`)]).padding(0.1);  // Improves readability
-/*
-Here we will create global references to the x and y axis with a fixed range.
-We will update the domain of the axis in the setData function based on which data source
-is requested.
-*/
+// Create a scale band for the y axis (artist)
+let y1 = d3.scaleBand().range([`${margin.top -30}`,(graph_1_height-`${margin.top}`-`${margin.bottom}`)]).padding(0.1);  
+
 
 // Set up reference to count SVG group
 let countRef1 = svg_1.append("g");
 // Set up reference to y axis label to update text in setData
 let y_axis_label_1 = svg_1.append("g");
 
-// TODO: Add x-axis label
+//Add x-axis label
 svg_1.append("text")
     .attr("transform",`translate(${(graph_1_width - margin.left - margin.right) / 2},
-    ${(graph_1_height - margin.top - margin.bottom) })`)       // HINT: Place this at the bottom middle edge of the graph
+    ${(graph_1_height - margin.top - margin.bottom) })`)      
     .style("text-anchor", "middle")
     .style("font-size", "12px")
     .text("Count");
     
-// Since this text will not update, we can declare it outside of the setData function
-
-
-// TODO: Add y-axis label
+// Add y-axis label
 let y_axis_text_1 = svg_1.append("text")
-    .attr("transform", `translate(-170, ${(graph_1_height - margin.top - margin.bottom ) / 2})`)       // HINT: Place this at the center left edge of the graph
+    .attr("transform", `translate(-170, ${(graph_1_height - margin.top - margin.bottom ) / 2})`)      
     .style("text-anchor", "middle")
     .style("font-size", "12px");
 
-// TODO: Add chart title
+// Add chart title
 let title_1 = svg_1.append("text")
-    .attr("transform", `translate(${(graph_1_width - margin.left - margin.right) / 2}, ${-20})`)       // HINT: Place this at the top middle edge of the graph
+    .attr("transform", `translate(${(graph_1_width - margin.left - margin.right) / 2}, ${-20})`)      
     .style("text-anchor", "middle")
     .style("font-size", 15);
 
 //garph 1 data: set for barplot
     //0: TV shows; 1: movies; 2: all
 function setData_1(attr) {
-    // TODO: Load the artists CSV file into D3 by using the d3.csv() method. Index into the filenames array
+    //Load the netflix CSV file into D3 by using the d3.csv() method. 
     d3.csv(filename).then(function(data) {
         var data_part = data.filter(function(d){
             if(attr != "all"){
@@ -86,14 +79,14 @@ function setData_1(attr) {
             return (parseInt(b["count"]) - parseInt(a["count"]));
         });
         
-         // TODO: Update the x axis domain with the max count of the provided data (到竖线的距离)
+         // Update the x axis domain with the max count of the provided data (到竖线的距离)
          x1.domain([0,d3.max(data_list, function(d) {return d["count"]})]);
 
-         // TODO: Update the y axis domains with the desired attribute
+         // Update the y axis domains with the desired attribute
          y1.domain(data_list.map(function(d) { return d["genre"] }));
         // HINT: Use the attr parameter to get the desired attribute for each data point
 
-        // TODO: Render y-axis label  (location of movie title)
+        // Render y-axis label  (location of movie title)
         y_axis_label_1.call(d3.axisLeft(y1).tickSize(0).tickPadding(10));
 
         /*
@@ -108,7 +101,7 @@ function setData_1(attr) {
         .range(d3.quantize(d3.interpolateHcl("#66a0e2", "#81c2c3"), data_list.length));
 
         
-        // TODO: Render the bar elements on the DOM
+        // Render the bar elements on the DOM
         /*
             This next section of code does the following:
                 1. Take each selection and append a desired element in the DOM
@@ -127,29 +120,28 @@ function setData_1(attr) {
                  return color(d["count"]) })
             .attr("x", x1(0))
             .attr("y", function(d) {
-                return y1(d["genre"])})               // HINT: Use function(d) { return ...; } to apply styles based on the data point
+                return y1(d["genre"])})               
             .attr("width", function(d) {return x1(d["count"])})
-            .attr("height",  y1.bandwidth());        // HINT: y.bandwidth() makes a reasonable display height
+            .attr("height",  y1.bandwidth());       
 
         /*
-            In lieu of x-axis labels, we are going to display the count of the artist next to its bar on the
-            bar plot. We will be creating these in the same manner as the bars.
+           x-axis labels next to its bar on the bar plot
          */
         let counts = countRef1.selectAll("text").data(data_list);
 
-        // TODO: Render the text elements on the DOM
+        //text elements on the DOM
         counts.enter()
             .append("text")
             .merge(counts)
             .transition()
             .duration(1000)
-            .attr("x", function(d) {return 10 + x1(d["count"])})       // HINT: Add a small offset to the right edge of the bar, found by x(d.count)
-        .attr("y", function(d) {return  10 + y1(d["genre"])})       // HINT: Add a small offset to the top edge of the bar, found by y(d.artist)
+            .attr("x", function(d) {return 10 + x1(d["count"])})       
+        .attr("y", function(d) {return  10 + y1(d["genre"])})      
         .style("text-anchor", "start")
         .style("font-size", "11px")
         .text(function (d) {
             return d["count"];
-        });                 // HINT: Get the count of the genre
+        });                 // Get the count of the genre
 
         y_axis_text_1.text(attr.charAt(0).toUpperCase()+ attr.slice(1)+ " Genres");
         title_1.text("1️⃣ Number of Title per Genre on Netflix (" + attr.charAt(0).toUpperCase() + attr.slice(1)+ ")");
@@ -193,7 +185,7 @@ setData_1("Movie");
 /////////////////////////////////////////////////////
 
 
-
+/*Graph 2: scatter plot */
 
 
 
@@ -203,25 +195,22 @@ setData_1("Movie");
 
 
 
-    // TODO: Set up SVG object with width, height and margin
-    let svg = d3.select("#graph2")      // HINT: div id for div containing scatterplot
+    //set up SVG object with width, height and margin
+    let svg = d3.select("#graph2")     
         .append("svg")
-        .attr("width", graph_2_width)     // HINT: width
-        .attr("height", graph_2_height+50)     // HINT: height
+        .attr("width", graph_2_width)     
+        .attr("height", graph_2_height+50)     
         .append("g")
         .attr("transform", `translate(${margin.left -50}, ${margin.top + 30})`);    // HINT: transform
 
     // Set up reference to tooltip
-    let tooltip = d3.select("#graph2")     // HINT: div id for div containing scatterplot
+    let tooltip = d3.select("#graph2")    
         .append("div")
         .attr("class", "tooltip")
         .style("opacity", 0);
     /*
-        Create tooltip as a div right underneath the SVG scatter plot.
-        Initially tooltip is invisible (opacity 0). We add the tooltip class for styling.
+        tooltip settings
      */
-
-
 
     // Load the CSV file into D3 
     d3.csv(filename).then(function(data) {
@@ -229,7 +218,7 @@ setData_1("Movie");
             return d.type === "Movie";
             
         });
-        // TODO: Filter the data for songs of a given artist (hard code artist name here)
+        // filter data and calculate average durations for years
         var year_cnt = {};
         var year_avg = {};
         for (var i=0;i<data_part.length;i++){
@@ -260,11 +249,7 @@ setData_1("Movie");
         let extent = d3.extent(data_list_2, function(d) { return d.year; });
         //console.log(extent)
         /*
-            HINT: Here we introduce the d3.extent, which can be used to return the min and
-            max of a dataset.
-
-            We want to use an anonymous function that will return a parsed JavaScript date (since
-            our x-axis is time). Try using Date.parse() for this.
+            d3.extent: return the min and max of a dataset.
          */
 
         // Create a time scale for the x axis
@@ -272,29 +257,25 @@ setData_1("Movie");
             .domain(extent)
             .range([0, graph_2_width - margin.left - margin.right]);
         
-        // TODO: Add x-axis label
+        // Add x-axis label
         svg.append("g")
             .attr("transform", `translate(0, ${graph_2_height - margin.top - margin.bottom})`)     
             .call(d3.axisBottom(x).tickFormat(d3.format("d")));
-        // HINT: Use the d3.axisBottom() to create your axis
 
 
-        // TODO: Create a linear scale for the y axis
+        // Create a linear scale for the y axis
         let y = d3.scaleLinear()
             .domain([0, d3.max(data_list_2, function(d) { return d.avg; })])
             .range([graph_2_height - margin.top - margin.bottom,0]);
-        /*
-            HINT: The domain should be an interval from 0 to the longest duration a movie has been
-         */
-
-        // TODO: Add y-axis label
+       
+        //Add y-axis label
         svg.append("g")
             .call(d3.axisLeft(y));
 
-        // Create a list of the groups in the nested data (representing songs) in the same order
+        // Create a list of the groups in the nested data 
         let groups = data_list_2.map(function(d) { return d.avg });
         
-        // OPTIONAL: Adding color
+        // add color
         let color = d3.scaleOrdinal()
             .domain(groups)
             .range(d3.quantize(d3.interpolateHcl("#66a0e2", "#ff5c7a"), groups.length));
@@ -326,38 +307,38 @@ setData_1("Movie");
         // Creates a reference to all the scatterplot dots
         let dots = svg.selectAll("dot").data(data_list_2);
 
-        // TODO: Render the dot elements on the DOM
+        // Render the dot elements on the DOM
         dots.enter()
             .append("circle")
-            .attr("cx", function (d) { return x(d.year); })      // HINT: Get x position by parsing the data point's date field
-            .attr("cy", function (d) { return y(d.avg); })      // HINT: Get y position with the data point's avg field
-            .attr("r", 4)       // HINT: Define your own radius here
+            .attr("cx", function (d) { return x(d.year); })     
+            .attr("cy", function (d) { return y(d.avg); })     
+            .attr("r", 4)       
             .style("fill",  function(d){ return color(d.avg); })
-            .on("mouseover", mouseover) // HINT: Pass in the mouseover and mouseout functions here
+            .on("mouseover", mouseover) 
             .on("mouseout", mouseout);
 
         // Add x-axis label
         svg.append("text")
             .attr("transform", `translate(${(graph_2_width - margin.left - margin.right) / 2},
-                                        ${(graph_2_height - margin.top - margin.bottom) +30})`)       // HINT: Place this at the bottom middle edge of the graph
+                                        ${(graph_2_height - margin.top - margin.bottom) +30})`)      
             .style("text-anchor", "middle")
             .style("font-size", "12px")
             .text("Year of Release");
 
         // Add y-axis label
         svg.append("text")
-            .attr("transform", `translate(-80, ${(graph_2_height - margin.top - margin.bottom) / 2})`)       // HINT: Place this at the center left edge of the graph
+            .attr("transform", `translate(-80, ${(graph_2_height - margin.top - margin.bottom) / 2})`)       
             .style("text-anchor", "middle")
             .style("font-size", "12px")
             .text('Average Duration');
         svg.append("text")
-            .attr("transform", `translate(-80, ${(graph_2_height - margin.top - margin.bottom) / 2 +20})`)       // HINT: Place this at the center left edge of the graph
+            .attr("transform", `translate(-80, ${(graph_2_height - margin.top - margin.bottom) / 2 +20})`)     
             .style("text-anchor", "middle")
             .style("font-size", "12px").text("in minutes");
 
         // Add chart title
         svg.append("text")
-            .attr("transform", `translate(${(graph_2_width - margin.left - margin.right) / 2}, ${-20})`)       // HINT: Place this at the top middle edge of the graph
+            .attr("transform", `translate(${(graph_2_width - margin.left - margin.right) / 2}, ${-20})`)       
             .style("text-anchor", "middle")
             .style("font-size", 15)
             .text(`2️⃣ Average Duration of Movie by Release Year`);
@@ -408,7 +389,6 @@ let simulation = d3.forceSimulation()
 
 // Set up color scheme for graph
 let color_casts = d3.scaleOrdinal(d3.schemeTableau10);
-
 
 
 d3.csv(filename).then(function(data) {
@@ -483,7 +463,7 @@ function startFlowGraph(graph) {
         .on("mouseover", function(d) { flow_mouseover(d, "html", "link") })
         .on("mouseout", function(d) { flow_mouseout(d, "html", "link")} );
     
-    // Use graph.nodes to create circles for each artist
+    // Use graph.nodes to create circles for each movie actor
     let node = svg_flow.append("g")
         .attr("class", "nodes")
         .selectAll("g")
@@ -500,9 +480,7 @@ function startFlowGraph(graph) {
     simulation.nodes(graph.nodes).on("tick", ticked);
     simulation.force("link").links(graph.links);
 
-    /**
-     * Function for when animation is ticked
-     */
+    
     function ticked() {
         link.attr("x1", function(d) { return d.source.x; })
             .attr("y1", function(d) { return d.source.y; })

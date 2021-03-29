@@ -39,6 +39,64 @@
                 *Nodes represents movie stars, and the line between nodes represents a movie they acted in together.</p>
         </div>
     </div>
+    <div class= "row" id = "writtenquestions">
+        <h4>Written Questions:</h4>
+        <p> 
+            <b>1. Describe how your dashboard answers the questions presented. You don't have to address every question directly, 
+            but should at a high level address the main questions. (10 points)</b> <br/>
+            - Question 1: Graph 1 answers the number of title per genre on Netflix using bar graph. Since the genres are set into two categories based on 
+            whether they are movie or TV shows, I divide the dataset into two parts: movies versus TV shows when drawing the bar chart. I rank the genres 
+            in the number they appear in the dataset to show a descending popularity. The bar chart is a good way when the number of categories is not too
+            large and when we want to see the exact numbers clearly.
+            <br/> <br/> 
+            - Question 2: Graph 2 shows the average runtime of movies in a time scale scatter plot. The graph shows how the average runtime of movies evolute
+            as time goes on. The graph shows clearly that the variation in average movie length between years becomes smaller and smaller as the industry standard
+            is usually followed to reduce the number of outliers in movie length and as the number of movies per year becomes large enough to cancel the effect
+            of outliers (movies that are too long or short).
+            <br/><br/> 
+            - Question 3: Graph 3 shows how the actors are connected through a network flow with nodes and links. The nodes are actors, and the links between
+            nodes shows what movie these two actors have both acted in. Since the number of total actors is enormous for our Neflix dataset, I have filtered 
+            the movies to show only movies whose country is "China" in the csv dataset. The larger the node, the more connections an actor has and usually the 
+            more movies that she or he has acted in.
+        </p>
+        <p> <b>2. List 3 reasons why D3 was helpful and improved your visualization (6 points) </b> <br/>
+            - (1) First, d3 makes it very convenient to import and process data from csv files. We can use maps and filters to get the processed data easily.
+            <br/><br/>
+            - (2) Second, d3 supports so many types of graphs that we have abundant options when considering different effects and visualizations.
+            <br/><br/>
+            - (3)  Third, managing colors in d3 is easy and color scales supported in d3 are very appealing visually.
+        </p>
+        <p> <b>3. List 3 reasons why D3 would not be the best tool for creating a visualization (6 points)</b> <br/>
+            - (1) Compared to Tableau, it requres the users to have strong technical skills in coding and javascript, which may not apply to the majority of people/
+            <br/><br/>
+            - (2) When the amount of data is huge, it's very time consuming to load the visualization from web pages.
+            <br/><br/>
+            - (3) d3 graphs does not support all platforms like older browsers or tablets that may not be able to connected to a port. It is not accessible to wider 
+            audiences
+
+        </p>
+        <p> 
+            <b>4. Evaluate the accessibility of your dashboard based on the readings in the “Before you begin” section. What kinds of users might find this 
+                dashboard accessible and who might have more difficulty? What additional actions might you take to make this dashboard more accessible to all 
+                audiences? Your response should refer to at least one of the readings and be about 1 paragraph.</b> <br/>
+
+            - It is apprently true that people who have visual impairment or even blind would not be able to access my visualization. Therefore, I would consider
+             adding sound to the page that tells the user what are the conclusion we can draw from the graphs on the page. In ”Accessibility is at the Heart of 
+             Data Visualization", the author mentioned that we shouldn't rely on a single signal factor for our most important message and repitition is important 
+             to deliver the key message. As a result, using both sounds and visuals can be more helpful.
+           
+        </p>
+
+        <p> 
+            <b>5. Reflect on the stages of your design and implementation process when you could have taken steps to make your dashboard more accessible to all 
+                audiences. What are some factors that kept you from taking these steps? (a few sentences)</b> <br/>
+
+            - While I could have added sound effects for my dashboard, it would be way too time-consuming and requires technical skills that I am not familiar with.
+            Also, people becomes more realistic when they know what the potential audience might be for our dashboard. If we have no idea who this dashboard might
+            be presented to, we may consider that people who have impairments. 
+           
+        </p>
+    </div>
     <!--Feel free to add more JavaScript files as needed-->
     <script type="text/javascript" src="main.js"></script>
 </body>
