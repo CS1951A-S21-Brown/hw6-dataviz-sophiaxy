@@ -1,3 +1,4 @@
+
 .header {
     padding-bottom: 20px;
     margin-bottom: 20px;
@@ -7,6 +8,54 @@
     margin: 0;
     padding-top: 20px;
     text-align: center;
+    font-family: 'Open Sans', sans-serif;
 }
 
+
 /* Include any custom CSS styling here! */
+h4 {
+    text-align: center;
+    
+}
+
+svg {
+    display: block;
+    margin: 0 auto;
+    font: 10px sans-serif;
+}
+
+#g1b1, #g1b2 {
+    height:35px;
+    font-size: 12px;
+    text-align: center;
+}
+#btn_area{
+  position: absolute;
+  top: 220px;
+  right: 60px;
+  width: 150px;
+  height: 50px;
+}
+.nodes circle {
+    stroke: rgb(238, 235, 235);
+    stroke-width: 1.5px;
+}
+.tooltip {
+    position: absolute;
+    font-size: 11px;
+    min-width: 120px;
+    padding: 10px;
+    pointer-events: none;
+    background-color: white;
+    text-align: center;
+    border-radius: 3px;
+}
+.links line {
+    stroke: rgb(144, 174, 196);
+    stroke-opacity: 0.6;
+}
+.focus line {
+    stroke: rgb(255, 0, 0);
+    stroke-dasharray: 1,1;
+    shape-rendering: crispEdges;
+}

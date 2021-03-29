@@ -3,7 +3,7 @@
 <head>
         <meta charset="utf-8">
         <title>Assignment 6 &laquo; Data Visualization Dashboard&raquo;</title>
-        <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css"> 
         <link rel="stylesheet" href="main.css"/>
         <!--Feel free to add more CSS files as needed-->
         <script type="text/javascript" src="https://d3js.org/d3.v5.min.js"></script>
@@ -11,15 +11,31 @@
 <body>
     <div class="header">
         <h3>Assignment 6 &laquo; Data Visualization Dashboard &raquo;</h3>
+        
     </div>
+    <div class="header">
+        <h4>Netflix Movie Data Presentation 🎥</h4>
+    </div>
+    
     <!--  We included a basic HTML structure for the 3 graphs here. Feel free to change this if you'd like  -->
     <div class="row">
         <div class="col-lg-6">
-            <div id="graph1"></div>
-            <div id="graph2"></div><br/>
+            
+            <div id="graph1">
+                <div id="btn_area">
+                    <p style="font-size: 11px;">*Click the button to switch types!</p>
+                    <button id = "g1b1" type="button" class="btn btn-info" onclick="setData_1('Movie')">Movie</button>
+                    <button id = "g1b2" type="button" class="btn btn-info" onclick="setData_1('TV Show')">TV Show</button>
+                </div>
+                
+            </div>
+            <div id="graph2">
+
+            </div><br/>
         </div>
         <div class="col-lg-6">
             <div id="graph3"></div>
+            <p style="font-size: 11px;">*Collaboration is defined as two movie casts appearing in the same movie. Hover over each cast / movie!</p>
         </div>
     </div>
     <!--Feel free to add more JavaScript files as needed-->
