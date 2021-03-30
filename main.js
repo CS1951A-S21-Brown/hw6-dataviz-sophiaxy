@@ -522,7 +522,22 @@ let flow_mouseover = function(d, attr, id) {
         .style("opacity", 1)
 };
 
+let flow_mouseout = function(d, attr, id) {
+    if (id === "node") {
+        svg_flow.select(`#node-${d.idx}`).attr("fill", function(d) {
+            return color_casts(d.group);
+        }).attr("r", function(d) {
+            return node_size(parseInt(d.count));
+        })
+    } else {
+        svg_flow.select(`#link-${d.id}`).attr("stroke-width", '2');
+    }
 
+    // Set opacity back to 0 to hide
+    tooltip.transition()
+        .duration(200)
+        .style("opacity", 0);
+};
 
 
 
@@ -579,9 +594,11 @@ function getCastConnectionGraph(data){
         
         castList = [...castSet];
     });
-    console.log(pair_count)
     return [pair_count, cast_movie_count, links, castList];
 }
+
+
+
 
 function darkenColor(color, percentage) {
     return d3.hsl(color).darker(percentage);
